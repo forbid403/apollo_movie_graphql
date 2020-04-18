@@ -56,9 +56,11 @@ const Suggestions = styled.div`
 const GET_MOVIE = gql`
   query getMovie($id: Int!) {
     movie(id: $id) {
+      id
       title
       medium_cover_image
       description_intro
+      isLiked @client
     }
     suggestions(id: $id){
       id
@@ -78,7 +80,7 @@ export default () => {
     <Root>
       <Container>
         <Column>
-          <Title>{loading ? "loading..." : data.movie.title}</Title>
+          <Title>{loading ? "loading..." : `${data.movie.title} ${data.movie.isLiked ? "💖" : "😢"}`}</Title>
           <Description>{data?.movie?.description_intro}</Description>
         </Column>
         <Poster bg={data?.movie?.medium_cover_image} />
@@ -87,7 +89,7 @@ export default () => {
         {data?.suggestions?.map(s =>
           <Poster key={s.id} bg={s.medium_cover_image} />
         )}
-      </Suggestions>
+      </Suggestions> 
     </Root>
 
   )
