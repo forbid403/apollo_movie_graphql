@@ -1,6 +1,35 @@
 import React from "react"
 import {gql} from "apollo-boost"
 import { useQuery } from "@apollo/react-hooks";
+import styled from "styled-components";
+import Movie from "../components/Movie";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;
+
+const Header = styled.header`
+  background-image: linear-gradient(-45deg, #d754ab, #fd723a);
+  height: 45vh;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+const Title = styled.h1`
+  font-size: 60px;
+  font-weight: 600;
+  margin-bottom: 20px;
+`;
+
+const Subtitle = styled.h3`
+  font-size: 35px;
+`;
 
 const GET_MOVIES = gql`{
     movies{
@@ -10,7 +39,21 @@ const GET_MOVIES = gql`{
 }`;
 
 export default () => {
-    const { loading, error, data } = useQuery(GET_MOVIES);
-    console.log(loading, error, data)
-    return <h1> Home </h1>
-};
+    const { loading, data } = useQuery(GET_MOVIES);
+    return (
+      <Container>
+        <Header>
+          <Title>Apollo 2020</Title>
+          <Subtitle>I love GraphQL</Subtitle>
+        </Header>
+        <div>
+          {loading ? <div>loading...</div>:
+          data.movies.map(m => (
+          <Movie 
+          key={m.id}
+          id={m.id}/>
+          ))}
+        </div>
+      </Container>
+    );
+  };
