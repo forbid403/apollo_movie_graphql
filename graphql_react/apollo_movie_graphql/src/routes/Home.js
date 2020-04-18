@@ -1,5 +1,5 @@
 import React from "react"
-import {gql} from "apollo-boost"
+import { gql } from "apollo-boost"
 import { useQuery } from "@apollo/react-hooks";
 import styled from "styled-components";
 import Movie from "../components/Movie";
@@ -31,6 +31,20 @@ const Subtitle = styled.h3`
   font-size: 35px;
 `;
 
+const Movies = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 25px;
+  width: 60%;
+  position: relative;
+  top: -50px;
+`;
+const Loading = styled.div`
+    font-size: 18px;
+    opacity: 0.5;
+    font-weight: 500;
+    margin-top: 10px;
+`;
 const GET_MOVIES = gql`{
     movies{
         id
@@ -41,19 +55,20 @@ const GET_MOVIES = gql`{
 export default () => {
     const { loading, data } = useQuery(GET_MOVIES);
     return (
-      <Container>
-        <Header>
-          <Title>Apollo 2020</Title>
-          <Subtitle>I love GraphQL</Subtitle>
-        </Header>
-        <div>
-          {loading ? <div>loading...</div>:
-          data.movies.map(m => (
-          <Movie 
-          key={m.id}
-          id={m.id}/>
-          ))}
-        </div>
-      </Container>
+        <Container>
+            <Header>
+                <Title>Apollo 2020</Title>
+                <Subtitle>I love GraphQL</Subtitle>
+            </Header>
+            {loading && <Loading>Loading...</Loading>}
+            <Movies>
+                {data?.movies?.map(m => (
+                    <Movie
+                        bg={m.medium_cover_image}
+                        key={m.id}
+                        id={m.id} />
+                ))}
+            </Movies>
+        </Container>
     );
-  };
+};
