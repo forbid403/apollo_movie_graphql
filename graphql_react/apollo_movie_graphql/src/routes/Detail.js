@@ -15,6 +15,7 @@ const Container = styled.div`
 `;
 const Title = styled.div`
   font-size : 65px;
+  margin-bottom: 15px;
 `;
 
 const Poster = styled.div`
@@ -27,7 +28,8 @@ const Poster = styled.div`
 `;
 
 
-const Description = styled.div`
+const Description = styled.p`
+  font-size:28px;
 `;
 
 
